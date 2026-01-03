@@ -1,0 +1,12 @@
+# Core dependencies for the RAG pipeline
+langchain>=0.1.0
+langchain-openai>=0.0.2
+langchain-pinecone>=0.0.1
+pinecone-client>=3.0.0
+
+# For loading .env files
+python-dotenv>=1.0.0
+
+# Tokenizer and PDF loader
+tiktoken>=0.5.2
+pypdf>=3.17.4

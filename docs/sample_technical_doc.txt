@@ -1,0 +1,88 @@
+TECHNICAL DOCUMENTATION - API REFERENCE
+
+REST API Endpoints
+==================
+
+Authentication
+--------------
+All API requests require authentication using Bearer tokens.
+
+Header Format:
+Authorization: Bearer <your_api_key>
+
+Endpoints:
+
+1. GET /api/v1/users
+   Description: Retrieve a list of all users
+   Parameters:
+   - limit (optional): Maximum number of results (default: 100)
+   - offset (optional): Pagination offset (default: 0)
+   Response: JSON array of user objects
+   Status Codes:
+   - 200: Success
+   - 401: Unauthorized
+   - 500: Server Error
+
+2. POST /api/v1/users
+   Description: Create a new user
+   Request Body:
+   {
+     "username": "string",
+     "email": "string",
+     "role": "admin|user|viewer"
+   }
+   Response: Created user object with ID
+   Status Codes:
+   - 201: Created
+   - 400: Bad Request
+   - 401: Unauthorized
+
+3. GET /api/v1/users/{id}
+   Description: Retrieve a specific user by ID
+   Parameters:
+   - id (required): User ID
+   Response: User object
+   Status Codes:
+   - 200: Success
+   - 404: Not Found
+
+Database Schema
+===============
+
+Users Table:
+- id (UUID, Primary Key)
+- username (VARCHAR(255), Unique)
+- email (VARCHAR(255), Unique)
+- role (ENUM: admin, user, viewer)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+Performance Optimization
+========================
+
+Caching Strategy:
+- Redis cache for frequently accessed data
+- TTL: 300 seconds for user data
+- Cache invalidation on updates
+
+Rate Limiting:
+- 100 requests per minute per API key
+- 1000 requests per hour per API key
+
+Error Handling
+==============
+
+All errors return JSON responses:
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable message",
+    "details": {}
+  }
+}
+
+Common Error Codes:
+- INVALID_TOKEN: Authentication token is invalid
+- RATE_LIMIT_EXCEEDED: Too many requests
+- RESOURCE_NOT_FOUND: Requested resource does not exist
+- VALIDATION_ERROR: Input validation failed
